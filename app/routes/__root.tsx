@@ -23,9 +23,19 @@ import { ChartColumnBig } from 'lucide-react';
 
 import { ClerkProvider, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/tanstack-react-start'
 import { Button } from '@/components/ui/button';
+import { getSignedInUserId } from '@/data/getSignedInUserId';
 
 
 export const Route = createRootRoute({
+  notFoundComponent() {
+    return <div className='text-3xl text-center py-10 text-muted-foreground'>Oops, Page Not Found!</div>
+  },
+  beforeLoad: async () => {
+    const userId = await getSignedInUserId()
+    return {
+      userId,
+    }
+  },
   head: () => ({
     meta: [
       {
